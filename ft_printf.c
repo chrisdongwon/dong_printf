@@ -6,11 +6,11 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:51:00 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/09 15:38:57 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/09 15:54:50 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_print.h"
+#include "ft_printf.h"
 
 int	ftprintf(const char *format, ...)
 {

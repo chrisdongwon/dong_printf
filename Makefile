@@ -5,68 +5,55 @@
 #                                                     +:+ +:+         +:+      #
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/09/03 16:52:39 by cwon              #+#    #+#              #
-#    Updated: 2024/09/09 15:38:58 by cwon             ###   ########.fr        #
+#    Created: 2024/09/10 11:09:34 by cwon              #+#    #+#              #
+#    Updated: 2024/09/10 11:45:09 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# output name
-# library extension: .lib for Windows, .a or .so for Unix
+SHELL = /bin/sh
+
+.SUFFIXES:
+.SUFFIXES: .c .o
+
 NAME = libftprintf.a
 
-# compiler
-CC = cc
+lib_path = ./libft
+lib = $(lib_path)/libft.a
 
-# compile flags
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-# c files to compile
-#src = 
-
-# bonus c files
+src = ft_printf.c
 # b-src = 
 
-# object files
-# variable declaration with substitution
-# files with extension .c changed to .o
 obj = $(src:.c=.o)
-b-obj = $(b-src:.c=.o)
+# b-obj = $(b-src:.c=.o)
 
-# target all
-# if library exists, clean first
-# else, compile then build library using ar command
-all: $(NAME)
-
-# use cc to compile c files and the object files.
-# % wildcard for pattern matching, * wildcard for name matching from shell
-# $< for first prerequisite, meaning c files in this case
-# $@ for the target name, so obj files in this case
-# previously - %.o: %.c libft.h Makefile
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(lib_path)
 
-# ar flags:
-# r for inserting files into archive,
-# c for creating archive,
-# s for indexing the files in the archive
-$(NAME): $(obj)
+all: $(lib) $(NAME)
+
+$(lib):
+	make -C $(lib_path)
+
+$(NAME): $(obj) $(lib)
+	cp $(lib) $(NAME)
 	ar -rcs $(NAME) $(obj)
 
-# $? for prerequisites newer than the target
-bonus: $(b-obj)
-	ar -rcs $(NAME) $^
+#bonus: $(b-obj)
+#	ar -rcs $(NAME) $(b-obj)
 
-# clean will remove object files
 clean:
-	rm -f $(obj) $(b-obj)
+	make clean -C $(lib_path)
+	rm -f $(obj)
+#	rm -f $(obj) $(b-obj)
 
-# fclean will remove object and c files
-fclean: clean 
+fclean: clean
+	make fclean -C $(lib_path)
 	rm -f $(NAME)
 
-# re for rebuild
-re: fclean $(NAME)
+re: fclean all
 
-# if a target name happens to match a file name in the directory,
-# it removes so that the targets are interpreted correctly in the makefile
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re libft
+#.PHONY: all clean fclean re libft bonus

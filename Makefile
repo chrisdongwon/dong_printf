@@ -6,7 +6,7 @@
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/10 11:09:34 by cwon              #+#    #+#              #
-#    Updated: 2024/09/10 11:45:09 by cwon             ###   ########.fr        #
+#    Updated: 2024/09/11 23:30:58 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ lib = $(lib_path)/libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-src = ft_printf.c
+src = ft_printf.c convert.c convert_literal.c convert_numeric.c convert_hex.c
 # b-src = 
 
 obj = $(src:.c=.o)

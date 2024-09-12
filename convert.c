@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 09:15:03 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/12 00:23:08 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/12 10:05:20 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	convert(char *spec, va_list *args, int *count)
 	else if (spec[0] == 's')
 		convert_string(args, count);
 	else if (spec[0] == 'p')
-		return; // stub
+		convert_pointer(args, count);
 	else if (spec[0] == 'd' || spec[0] == 'i')
 		convert_int(args, count);
 	else if (spec[0] == 'u')

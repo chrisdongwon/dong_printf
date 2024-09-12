@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 09:17:39 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/11 22:58:57 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/12 10:18:15 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	convert_char(va_list *args, int *count)
 void	convert_string(va_list *args, int *count)
 {
 	char	*str;
-	
+
 	str = va_arg(*args, char *);
 	if (!str)
 		str = "(null)";

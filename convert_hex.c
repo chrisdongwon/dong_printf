@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:21:21 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/12 00:18:40 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/12 10:18:34 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static size_t	hex_length(unsigned int n)
 {
 	size_t	len;
-	
+
 	len = 0;
 	if (!n)
 		return (1);
@@ -26,25 +26,30 @@ static size_t	hex_length(unsigned int n)
 	}
 	return (len);
 }
-#include <stdio.h>
+
+static char	*to_hex_string(unsigned int n, const char *hex)
+{
+	size_t	len;
+	char	*result;
+
+	len = hex_length(n);
+	result = (char *)malloc(len + 1);
+	result[len--] = 0;
+	if (!n)
+		result[0] = '0';
+	while (n)
+	{
+		result[len--] = hex[n % 16];
+		n /= 16;
+	}
+	return (result);
+}
 
 void	convert_hex(va_list *args, int *count, const char *hex)
 {
-	unsigned int	n;
-	size_t			len;
-	char			*str;
+	char	*str;
 
-	n = va_arg(*args, unsigned int);
-	len = hex_length(n);
-	str = (char *)malloc(len + 1);
-	str[len--] = 0;
-	if (!n)
-		str[0] = '0';
-	while (n)
-	{
-		str[len--] = hex[n % 16];
-		n /= 16;
-	}
+	str = to_hex_string(va_arg(*args, unsigned int), hex);
 	ft_putstr_fd(str, 1);
 	*count += ft_strlen(str);
 	free(str);

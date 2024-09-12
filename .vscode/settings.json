@@ -1,6 +1,7 @@
 {
 	"makefile.configureOnOpen": false,
 	"files.associations": {
-		"ft_printf.h": "c"
+		"ft_printf.h": "c",
+		"sstream": "c"
 	}
 }

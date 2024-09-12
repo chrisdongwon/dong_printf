@@ -1,70 +1,64 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert_numeric.c                                  :+:      :+:    :+:   */
+/*   convert_pointer.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/11 12:45:17 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/12 10:18:03 by cwon             ###   ########.fr       */
+/*   Created: 2024/09/12 10:04:28 by cwon              #+#    #+#             */
+/*   Updated: 2024/09/12 10:17:43 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static size_t	digit_len(unsigned int n)
+static size_t	hex_length(unsigned long n)
 {
-	size_t	result;
+	size_t	len;
 
-	result = 0;
+	len = 0;
 	if (!n)
 		return (1);
 	while (n)
 	{
-		result++;
-		n /= 10;
+		len++;
+		n /= 16;
 	}
-	return (result);
+	return (len);
 }
 
-static char	*ft_utoa(unsigned int n)
+static char	*to_hex_string(unsigned long n, const char *hex)
 {
-	char	*result;
 	size_t	len;
-	size_t	i;
+	char	*result;
 
-	len = digit_len(n);
+	len = hex_length(n);
 	result = (char *)malloc(len + 1);
-	if (result)
+	result[len--] = 0;
+	if (!n)
+		result[0] = '0';
+	while (n)
 	{
-		result[len] = 0;
-		if (!n)
-			result[0] = '0';
-		i = len - 1;
-		while (n)
-		{
-			result[i--] = (n % 10) + '0';
-			n /= 10;
-		}
+		result[len--] = hex[n % 16];
+		n /= 16;
 	}
 	return (result);
 }
 
-void	convert_int(va_list *args, int *count)
+void	convert_pointer(va_list *args, int *count)
 {
+	void	*ptr;
 	char	*str;
 
-	str = ft_itoa(va_arg(*args, int));
-	ft_putstr_fd(str, 1);
-	*count += ft_strlen(str);
-	free(str);
-}
-
-void	convert_unsigned(va_list *args, int *count)
-{
-	char	*str;
-
-	str = ft_utoa(va_arg(*args, int));
+	ptr = va_arg(*args, void *);
+	if (!ptr)
+		str = ft_strdup("(nil)");
+	else
+	{
+		str = to_hex_string((unsigned long)ptr, "0123456789abcdef");
+		ft_putstr_fd("0x", 1);
+		*count += 2;
+	}
 	ft_putstr_fd(str, 1);
 	*count += ft_strlen(str);
 	free(str);

@@ -6,47 +6,32 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:51:00 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/11 23:05:11 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/12 23:49:13 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	is_member(const char c, const char *arr)
+static void	init_spec(t_spec *spec)
 {
-	while (arr && *arr)
-	{
-		if (*(arr++) == c)
-			return (1);
-	}
-	return (0);
+	spec->flags = 0;
+	spec->width = 0;
+	spec->precision = 0;
+	spec->type = 0;
+	spec->pound = 0;
+	spec->space = 0;
+	spec->plus = 0;
+	spec->minus = 0;
+	spec->zero = 0;
+	spec->dot = 0;
 }
 
-static char	*extract_spec(const char **str)
-{
-	const char	*next;
-	char		*result;
-
-	next = (*str) + 1;
-	if (is_member(*next, "cspdiuxX%"))
-	{
-		result = (char*)malloc(2);
-		result[0] = *next;
-		result[1] = 0;
-		*str += 2;
-	}
-	else // what about spaces after percent? i.e. bonus material
-	{
-		result = (char *)malloc(0);
-		*str += 1;
-	}
-	return (result);
-}
-
+// %[flags][width][.precision][length]type
 static void	parse(const char *format, va_list *args, int *count)
 {
-	char	*spec;
+	t_spec	spec;
 	
+	init_spec(&spec);
 	while (format && *format)
 	{
 		if (*format != '%')
@@ -56,9 +41,15 @@ static void	parse(const char *format, va_list *args, int *count)
 		}
 		else
 		{
-			spec = extract_spec(&format);
+			format++;
+			extract_flags(&format, &spec);
+			// extract width
+			// extract precision
+			// extract length
+			extract_type(&format, &spec);
 			convert(spec, args, count);
-			free(spec);
+			if (!spec.flags)
+				free(spec.flags);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:21:21 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/12 10:18:34 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/13 07:39:20 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,19 @@ static char	*to_hex_string(unsigned int n, const char *hex)
 	return (result);
 }
 
-void	convert_hex(va_list *args, int *count, const char *hex)
+void	convert_hex(va_list *args, int *count, int pound, const char *hex)
 {
 	char	*str;
 
 	str = to_hex_string(va_arg(*args, unsigned int), hex);
+	if (pound)
+	{
+		if (hex[10] == 'a')
+			ft_putstr_fd("0x", 1);
+		else
+			ft_putstr_fd("0X", 1);
+		*count += 2;
+	}
 	ft_putstr_fd(str, 1);
 	*count += ft_strlen(str);
 	free(str);

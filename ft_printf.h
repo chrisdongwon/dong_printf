@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:05:50 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 00:22:32 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 00:50:15 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	extract(const char **str, t_spec *spec);
 void	convert_char(va_list *args, int *count);
 void	convert_string(va_list *args, int *count);
 void	convert_pointer(va_list *args, int *count);
-void	convert_int(va_list *args, int *count);
+void	convert_int(va_list *args, int *count, t_spec spec);
 void	convert_unsigned(va_list *args, int *count);
-void	convert_hex(va_list *args, int *count, int pound, const char *hex);
+void	convert_hex(va_list *args, int *count, t_spec spec, const char *hex);
 void	convert_percent_literal(int *count);
 
 #endif

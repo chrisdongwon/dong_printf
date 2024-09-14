@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:45:17 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/12 10:18:03 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 00:54:25 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,21 @@ static char	*ft_utoa(unsigned int n)
 	return (result);
 }
 
-void	convert_int(va_list *args, int *count)
+void	convert_int(va_list *args, int *count, t_spec spec)
 {
 	char	*str;
+	int		val;
 
-	str = ft_itoa(va_arg(*args, int));
+	val = va_arg(*args, int);
+	str = ft_itoa(val);
+	if (val >= 0 && (spec.plus || spec.space))
+	{
+		if (spec.plus)
+			ft_putchar_fd('+', 1);
+		else if (spec.space)
+			ft_putchar_fd(' ', 1);
+		(*count)++;
+	}
 	ft_putstr_fd(str, 1);
 	*count += ft_strlen(str);
 	free(str);

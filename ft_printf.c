@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:51:00 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 00:22:54 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 00:52:07 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ static void	convert(t_spec spec, va_list *args, int *count)
 	else if (spec.type == 'p')
 		convert_pointer(args, count);
 	else if (spec.type == 'd' || spec.type == 'i')
-		convert_int(args, count);
+		convert_int(args, count, spec);
 	else if (spec.type == 'u')
 		convert_unsigned(args, count);
 	else if (spec.type == 'x')
-		convert_hex(args, count, spec.pound, "0123456789abcdef");
+		convert_hex(args, count, spec, "0123456789abcdef");
 	else if (spec.type == 'X')
-		convert_hex(args, count, spec.pound, "0123456789ABCDEF");
+		convert_hex(args, count, spec, "0123456789ABCDEF");
 	else if (spec.type == '%')
 		convert_percent_literal(count);
 }

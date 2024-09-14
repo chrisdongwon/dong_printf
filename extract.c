@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:53:25 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 00:19:17 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 00:33:16 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	is_member(const char c, const char *arr)
 
 static void	extract_flags(const char **str, t_spec *spec)
 {
-	while (!is_member(**str, "cspdiuxX%") && !ft_isdigit(**str))
+	while (!is_member(**str, "cspdiuxX%.") && !ft_isdigit(**str))
 	{
 		if (**str == '-')
 			spec->minus = 1;
@@ -40,11 +40,11 @@ static void	extract_flags(const char **str, t_spec *spec)
 	}
 }
 
-static void	extract_type(const char **str, t_spec *spec)
+static void	extract_width(const char **str, t_spec *spec)
 {
-	if (is_member(**str, "cspdiuxX%"))
+	while (str && *str && **str && ft_isdigit(**str))
 	{
-		spec->type = **str;
+		spec->width = (spec->width * 10) + (**str - '0');
 		(*str)++;
 	}
 }
@@ -52,7 +52,11 @@ static void	extract_type(const char **str, t_spec *spec)
 void	extract(const char **str, t_spec *spec)
 {
 	extract_flags(str, spec);
-	// extract width
+	extract_width(str, spec);
 	// extract precision
-	extract_type(str, spec);
+	if (is_member(**str, "cspdiuxX%"))
+	{
+		spec->type = **str;
+		(*str)++;
+	}
 }

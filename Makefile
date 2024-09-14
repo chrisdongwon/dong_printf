@@ -6,7 +6,7 @@
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/10 11:09:34 by cwon              #+#    #+#              #
-#    Updated: 2024/09/15 00:20:16 by cwon             ###   ########.fr        #
+#    Updated: 2024/09/15 00:43:16 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,16 +26,15 @@ CFLAGS = -Wall -Wextra -Werror
 src = \
 		ft_printf.c convert_literal.c convert_pointer.c convert_numeric.c \
 		convert_hex.c extract.c
-		
-# b-src = 
 
 obj = $(src:.c=.o)
-# b-obj = $(b-src:.c=.o)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I $(lib_path)
 
 all: $(lib) $(NAME)
+
+bonus: all
 
 $(lib):
 	make -C $(lib_path)
@@ -44,13 +43,9 @@ $(NAME): $(obj) $(lib)
 	cp $(lib) $(NAME)
 	ar -rcs $(NAME) $(obj)
 
-#bonus: $(b-obj)
-#	ar -rcs $(NAME) $(b-obj)
-
 clean:
 	make clean -C $(lib_path)
 	rm -f $(obj)
-#	rm -f $(obj) $(b-obj)
 
 fclean: clean
 	make fclean -C $(lib_path)
@@ -58,5 +53,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re libft
-#.PHONY: all clean fclean re libft bonus
+.PHONY: all clean fclean re libft bonus

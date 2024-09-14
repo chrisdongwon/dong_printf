@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:51:00 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/12 23:49:13 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 00:22:54 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,37 @@
 
 static void	init_spec(t_spec *spec)
 {
-	spec->flags = 0;
-	spec->width = 0;
-	spec->precision = 0;
-	spec->type = 0;
-	spec->pound = 0;
-	spec->space = 0;
-	spec->plus = 0;
 	spec->minus = 0;
 	spec->zero = 0;
 	spec->dot = 0;
+	spec->pound = 0;
+	spec->space = 0;
+	spec->plus = 0;
+	spec->width = 0;
+	spec->precision = 0;
+	spec->type = 0;
 }
 
-// %[flags][width][.precision][length]type
+static void	convert(t_spec spec, va_list *args, int *count)
+{
+	if (spec.type == 'c')
+		convert_char(args, count);
+	else if (spec.type == 's')
+		convert_string(args, count);
+	else if (spec.type == 'p')
+		convert_pointer(args, count);
+	else if (spec.type == 'd' || spec.type == 'i')
+		convert_int(args, count);
+	else if (spec.type == 'u')
+		convert_unsigned(args, count);
+	else if (spec.type == 'x')
+		convert_hex(args, count, spec.pound, "0123456789abcdef");
+	else if (spec.type == 'X')
+		convert_hex(args, count, spec.pound, "0123456789ABCDEF");
+	else if (spec.type == '%')
+		convert_percent_literal(count);
+}
+
 static void	parse(const char *format, va_list *args, int *count)
 {
 	t_spec	spec;
@@ -42,14 +60,8 @@ static void	parse(const char *format, va_list *args, int *count)
 		else
 		{
 			format++;
-			extract_flags(&format, &spec);
-			// extract width
-			// extract precision
-			// extract length
-			extract_type(&format, &spec);
+			extract(&format, &spec);
 			convert(spec, args, count);
-			if (!spec.flags)
-				free(spec.flags);
 		}
 	}
 }

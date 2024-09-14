@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:53:25 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/12 23:41:16 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 00:19:17 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,37 @@ static int	is_member(const char c, const char *arr)
 	return (0);
 }
 
-void	extract_flags(const char **str, t_spec *spec)
+static void	extract_flags(const char **str, t_spec *spec)
 {
-	if (**str == '#')
+	while (!is_member(**str, "cspdiuxX%") && !ft_isdigit(**str))
 	{
-		spec->pound = 1;
+		if (**str == '-')
+			spec->minus = 1;
+		else if (**str == '0')
+			spec->zero = 1;
+		else if (**str == '#')
+			spec->pound = 1;
+		else if (**str == ' ')
+			spec->space = 1;
+		else if (**str == '+')
+			spec->plus = 1;
 		(*str)++;
 	}
 }
 
-void	extract_type(const char **str, t_spec *spec)
+static void	extract_type(const char **str, t_spec *spec)
 {
 	if (is_member(**str, "cspdiuxX%"))
 	{
 		spec->type = **str;
 		(*str)++;
 	}
+}
+
+void	extract(const char **str, t_spec *spec)
+{
+	extract_flags(str, spec);
+	// extract width
+	// extract precision
+	extract_type(str, spec);
 }

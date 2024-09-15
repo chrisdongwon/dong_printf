@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:45:17 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 18:50:17 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 18:55:04 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	convert_int(va_list *args, int *count, t_spec spec)
 			ft_putchar_fd(' ', 1);
 		(*count)++;
 	}
-	ft_putstr_fd(str, 1);
-	*count += ft_strlen(str);
+	format_print(spec, str, count);
 	free(str);
 }
 

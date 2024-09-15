@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:53:25 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 01:05:40 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 14:59:38 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	extract_flags(const char **str, t_spec *spec)
 {
-	while (!ft_ismember(**str, "cspdiuxX%.") && !ft_isdigit(**str))
+	while (!ft_ismember(**str, "cspdiuxX%.123456789"))
 	{
 		if (**str == '-')
 			spec->minus = 1;

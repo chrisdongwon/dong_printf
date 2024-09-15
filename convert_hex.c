@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:21:21 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 00:48:04 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 14:49:47 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ static size_t	hex_length(unsigned int n)
 	return (len);
 }
 
-static char	*to_hex_string(unsigned int n, const char *hex)
+static char	*to_hex_string(unsigned int n, t_spec spec, const char *hex)
 {
 	size_t	len;
 	char	*result;
 
 	len = hex_length(n);
+	if (spec.pound && n)
+		len += 2;
 	result = (char *)malloc(len + 1);
 	result[len--] = 0;
 	if (!n)
@@ -41,6 +43,14 @@ static char	*to_hex_string(unsigned int n, const char *hex)
 	{
 		result[len--] = hex[n % 16];
 		n /= 16;
+	}
+	if (spec.pound && n)
+	{
+		if (hex[10] == 'a')
+			result[len--] = 'x';
+		else
+			result[len--] = 'X';
+		result[len] = '0';
 	}
 	return (result);
 }
@@ -51,16 +61,7 @@ void	convert_hex(va_list *args, int *count, t_spec spec, const char *hex)
 	unsigned int	val;
 
 	val = va_arg(*args, unsigned int);
-	str = to_hex_string(val, hex);
-	if (spec.pound && val)
-	{
-		if (hex[10] == 'a')
-			ft_putstr_fd("0x", 1);
-		else
-			ft_putstr_fd("0X", 1);
-		*count += 2;
-	}
-	ft_putstr_fd(str, 1);
-	*count += ft_strlen(str);
+	str = to_hex_string(val, spec, hex);
+	format_print(spec, str, count);
 	free(str);
 }

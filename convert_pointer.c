@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:04:28 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/12 10:17:43 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 13:53:49 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,25 @@ static char	*to_hex_string(unsigned long n, const char *hex)
 	size_t	len;
 	char	*result;
 
-	len = hex_length(n);
+	len = hex_length(n) + 2;
 	result = (char *)malloc(len + 1);
 	result[len--] = 0;
 	if (!n)
-		result[0] = '0';
-	while (n)
+		result[len--] = '0';
+	else
 	{
-		result[len--] = hex[n % 16];
-		n /= 16;
+		while (n)
+		{
+			result[len--] = hex[n % 16];
+			n /= 16;
+		}
 	}
+	result[len--] = 'x';
+	result[len] = '0';
 	return (result);
 }
 
-void	convert_pointer(va_list *args, int *count)
+void	convert_pointer(va_list *args, int *count, t_spec spec)
 {
 	void	*ptr;
 	char	*str;
@@ -54,12 +59,7 @@ void	convert_pointer(va_list *args, int *count)
 	if (!ptr)
 		str = ft_strdup("(nil)");
 	else
-	{
 		str = to_hex_string((unsigned long)ptr, "0123456789abcdef");
-		ft_putstr_fd("0x", 1);
-		*count += 2;
-	}
-	ft_putstr_fd(str, 1);
-	*count += ft_strlen(str);
+	format_print(spec, str, count);
 	free(str);
 }

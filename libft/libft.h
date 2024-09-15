@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:05:50 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 01:09:25 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 16:25:31 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 int		ft_ismember(const char c, const char *arr);
 void	ft_pad_fd(char c, size_t n, int fd);
+char	*ft_utoa(unsigned int n);
 
 #endif

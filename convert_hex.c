@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:21:21 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 19:12:03 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 19:13:41 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*to_hex_string(unsigned int n, t_spec spec, const char *hex)
 	result[len--] = 0;
 	if (!n)
 		result[len] = '0';
-	if (spec.pound && n)
+	else if (spec.pound)
 	{
 		if (hex[10] == 'a')
 			result[1] = 'x';

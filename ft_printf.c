@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:51:00 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 00:52:07 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 01:31:17 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,33 +25,13 @@ static void	init_spec(t_spec *spec)
 	spec->type = 0;
 }
 
-static void	convert(t_spec spec, va_list *args, int *count)
-{
-	if (spec.type == 'c')
-		convert_char(args, count);
-	else if (spec.type == 's')
-		convert_string(args, count);
-	else if (spec.type == 'p')
-		convert_pointer(args, count);
-	else if (spec.type == 'd' || spec.type == 'i')
-		convert_int(args, count, spec);
-	else if (spec.type == 'u')
-		convert_unsigned(args, count);
-	else if (spec.type == 'x')
-		convert_hex(args, count, spec, "0123456789abcdef");
-	else if (spec.type == 'X')
-		convert_hex(args, count, spec, "0123456789ABCDEF");
-	else if (spec.type == '%')
-		convert_percent_literal(count);
-}
-
 static void	parse(const char *format, va_list *args, int *count)
 {
 	t_spec	spec;
 	
-	init_spec(&spec);
 	while (format && *format)
 	{
+		init_spec(&spec);
 		if (*format != '%')
 		{
 			ft_putchar_fd(*(format++), 1);

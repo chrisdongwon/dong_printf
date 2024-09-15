@@ -6,7 +6,7 @@
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/10 11:09:34 by cwon              #+#    #+#              #
-#    Updated: 2024/09/15 00:43:16 by cwon             ###   ########.fr        #
+#    Updated: 2024/09/15 01:30:12 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 src = \
 		ft_printf.c convert_literal.c convert_pointer.c convert_numeric.c \
-		convert_hex.c extract.c
+		convert_hex.c extract.c convert.c
 
 obj = $(src:.c=.o)
 

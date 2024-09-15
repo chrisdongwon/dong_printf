@@ -6,25 +6,15 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:53:25 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 00:33:16 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/15 01:05:40 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	is_member(const char c, const char *arr)
-{
-	while (arr && *arr)
-	{
-		if (*(arr++) == c)
-			return (1);
-	}
-	return (0);
-}
-
 static void	extract_flags(const char **str, t_spec *spec)
 {
-	while (!is_member(**str, "cspdiuxX%.") && !ft_isdigit(**str))
+	while (!ft_ismember(**str, "cspdiuxX%.") && !ft_isdigit(**str))
 	{
 		if (**str == '-')
 			spec->minus = 1;
@@ -54,7 +44,7 @@ void	extract(const char **str, t_spec *spec)
 	extract_flags(str, spec);
 	extract_width(str, spec);
 	// extract precision
-	if (is_member(**str, "cspdiuxX%"))
+	if (ft_ismember(**str, "cspdiuxX%"))
 	{
 		spec->type = **str;
 		(*str)++;

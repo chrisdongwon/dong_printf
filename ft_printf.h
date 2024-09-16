@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:05:50 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 14:37:40 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/16 06:43:37 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	extract(const char **str, t_spec *spec);
 
 void	convert(t_spec spec, va_list *args, int *count);
 void	pad(t_spec, int *count, size_t len, char c);
+void	pad_zero(t_spec spec, char **str);
 void	format_print(t_spec spec, char *str, int *count);
 
 void	convert_char(va_list *args, int *count, t_spec spec);

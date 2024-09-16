@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:21:21 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 19:13:41 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/16 07:00:30 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	convert_hex(va_list *args, int *count, t_spec spec, const char *hex)
 
 	val = va_arg(*args, unsigned int);
 	str = to_hex_string(val, spec, hex);
+	if (spec.zero && spec.width > ft_strlen(str))
+		pad_zero(spec, &str);
 	format_print(spec, str, count);
 	free(str);
 }

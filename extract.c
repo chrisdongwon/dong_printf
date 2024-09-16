@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:53:25 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 14:59:38 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/16 06:58:29 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,40 @@ static void	extract_flags(const char **str, t_spec *spec)
 
 static void	extract_width(const char **str, t_spec *spec)
 {
-	while (str && *str && **str && ft_isdigit(**str))
+	while (str && *str && ft_isdigit(**str))
 	{
 		spec->width = (spec->width * 10) + (**str - '0');
 		(*str)++;
 	}
 }
 
-void	extract(const char **str, t_spec *spec)
+static void	extract_precision(const char **str, t_spec *spec)
 {
-	extract_flags(str, spec);
-	extract_width(str, spec);
-	// extract precision
+	if (str && *str && **str == '.')
+	{
+		(*str)++;
+		while (str && *str && ft_isdigit(**str))
+		{
+			spec->precision = (spec->precision * 10) + (**str - '0');
+			(*str)++;
+		}
+	}
+}
+
+static void	extract_type(const char **str, t_spec *spec)
+{
 	if (ft_ismember(**str, "cspdiuxX%"))
 	{
 		spec->type = **str;
 		(*str)++;
 	}
+}
+
+
+void	extract(const char **str, t_spec *spec)
+{
+	extract_flags(str, spec);
+	extract_width(str, spec);
+	extract_precision(str, spec);
+	extract_type(str, spec);
 }

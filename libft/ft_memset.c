@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 17:33:03 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/08 17:06:50 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/16 06:28:16 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_memset(void *s, int c, size_t n)
 	unsigned char	*ptr;
 
 	ptr = (unsigned char *)s;
-	while (n != 0)
+	while (n)
 		ptr[--n] = (unsigned char)c;
 	return (s);
 }

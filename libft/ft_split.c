@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:17:00 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/08 17:23:48 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/18 14:58:49 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,17 @@ static char	*extract(const char *s, char c, size_t *start)
 	return (result);
 }
 
+static char	**free_all(char **result, size_t count)
+{
+	size_t	i;
+
+	i = 0;
+	while (i <= count)
+		free(result[i++]);
+	free(result);
+	return (0);
+}
+
 char	**ft_split(const char *s, char c)
 {
 	char	**result;
@@ -62,7 +73,12 @@ char	**ft_split(const char *s, char c)
 	{
 		start = 0;
 		while (i < count)
-			result[i++] = extract(s, c, &start);
+		{
+			result[i] = extract(s, c, &start);
+			if (!result[i])
+				return (free_all(result, i));
+			i++;
+		}
 		result[i] = 0;
 	}
 	return (result);

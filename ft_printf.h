@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:05:50 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/16 06:43:37 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/19 16:52:58 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,17 @@ typedef struct s_spec
 }	t_spec;
 
 int		ft_printf(const char *format, ...);
-
 void	extract(const char **str, t_spec *spec);
-
 void	convert(t_spec spec, va_list *args, int *count);
-void	pad(t_spec, int *count, size_t len, char c);
-void	pad_zero(t_spec spec, char **str);
 void	format_print(t_spec spec, char *str, int *count);
-
+char	*pad_string(size_t n, const char c);
+void	pad_zero(t_spec spec, char **str);
 void	convert_char(va_list *args, int *count, t_spec spec);
 void	convert_string(va_list *args, int *count, t_spec spec);
-void	convert_pointer(va_list *args, int *count, t_spec spec);
 void	convert_int(va_list *args, int *count, t_spec spec);
 void	convert_unsigned(va_list *args, int *count, t_spec spec);
 void	convert_hex(va_list *args, int *count, t_spec spec, const char *hex);
+void	convert_pointer(va_list *args, int *count, t_spec spec);
 void	convert_percent_literal(int *count);
 
 #endif

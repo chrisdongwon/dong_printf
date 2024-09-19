@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:21:21 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/16 07:00:30 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/19 16:55:26 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*to_hex_string(unsigned int n, t_spec spec, const char *hex)
 		else
 			result[1] = 'X';
 		result[0] = '0';
-	}		
+	}
 	while (n)
 	{
 		result[len--] = hex[n % 16];
@@ -62,6 +62,11 @@ void	convert_hex(va_list *args, int *count, t_spec spec, const char *hex)
 
 	val = va_arg(*args, unsigned int);
 	str = to_hex_string(val, spec, hex);
+	if (spec.dot)
+	{
+		spec.zero = 1;
+		spec.width = spec.precision;
+	}
 	if (spec.zero && spec.width > ft_strlen(str))
 		pad_zero(spec, &str);
 	format_print(spec, str, count);

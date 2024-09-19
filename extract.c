@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:53:25 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/16 06:58:29 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/19 11:44:46 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	extract_precision(const char **str, t_spec *spec)
 {
 	if (str && *str && **str == '.')
 	{
+		spec->dot = 1;
 		(*str)++;
 		while (str && *str && ft_isdigit(**str))
 		{
@@ -60,7 +61,6 @@ static void	extract_type(const char **str, t_spec *spec)
 		(*str)++;
 	}
 }
-
 
 void	extract(const char **str, t_spec *spec)
 {

@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:48:37 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/22 10:01:15 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/22 14:26:55 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,17 @@ void	pad_zero(char **str, size_t zero_len)
 {
 	char	*result;
 	char	*zero_str;
+	char	first;
+	char	second;
 
 	zero_str = pad_string(zero_len, '0');
 	result = ft_strjoin(zero_str, *str);
-	if (*str[0] == '-')
+	if (*str[0] == '-' || *str[0] == ' ' || *str[0] == '+')
 		swap(result, 0, zero_len);
+	first = result[zero_len];
+	second = result[zero_len + 1];
+	if (first == '0' && (second == 'x' || second == 'X'))
+		swap(result, 1, zero_len + 1);
 	free(zero_str);
 	free(*str);
 	*str = result;

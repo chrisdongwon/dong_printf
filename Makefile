@@ -6,7 +6,7 @@
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/10 11:09:34 by cwon              #+#    #+#              #
-#    Updated: 2024/09/19 16:52:40 by cwon             ###   ########.fr        #
+#    Updated: 2024/09/21 17:49:08 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ src = \
 		ft_printf.c \
 		extract.c \
 		convert.c \
+		pad.c \
 		convert_literal.c \
 		convert_numeric.c \
 		convert_hex.c \

@@ -1,4 +1,5 @@
 .vscode
 printfTester/
+printf-unit-test/
 main.c
 a.out

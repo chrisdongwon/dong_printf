@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:21:21 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/19 16:55:26 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/22 09:33:28 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,23 @@ static char	*to_hex_string(unsigned int n, t_spec spec, const char *hex)
 void	convert_hex(va_list *args, int *count, t_spec spec, const char *hex)
 {
 	char			*str;
-	unsigned int	val;
+	size_t			len;
 
-	val = va_arg(*args, unsigned int);
-	str = to_hex_string(val, spec, hex);
-	if (spec.dot)
+	str = to_hex_string(va_arg(*args, unsigned int), spec, hex);
+	len = ft_strlen(str);
+	if (spec.dot && spec.precision <= 0)
 	{
-		spec.zero = 1;
-		spec.width = spec.precision;
+		if (str[0] == '0')
+		{
+			free(str);
+			str = ft_strdup("");
+		}
+		else
+			spec.dot = 0;
 	}
-	if (spec.zero && spec.width > ft_strlen(str))
-		pad_zero(spec, &str);
+	if (spec.dot && spec.precision > (int)len)
+		pad_zero(&str, spec.precision - len);
+	else if (spec.zero && !spec.dot && spec.width > len)
+		pad_zero(&str, spec.width - len);
 	format_print(spec, str, count);
-	free(str);
 }

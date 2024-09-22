@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:51:00 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/19 16:56:18 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/22 10:23:00 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ static void	parse(const char *format, va_list *args, int *count)
 		else
 		{
 			format++;
-			extract(&format, &spec);
+			if (!(*format))
+				return ;
+			extract(&format, &spec, args);
 			convert(spec, args, count);
 		}
 	}

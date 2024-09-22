@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 16:53:25 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/19 11:44:46 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/22 10:02:01 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	extract_flags(const char **str, t_spec *spec)
 {
-	while (!ft_ismember(**str, "cspdiuxX%.123456789"))
+	while (!ft_ismember(**str, "cspdiuxX%*.123456789"))
 	{
 		if (**str == '-')
 			spec->minus = 1;
@@ -28,27 +28,56 @@ static void	extract_flags(const char **str, t_spec *spec)
 			spec->plus = 1;
 		(*str)++;
 	}
+	if (spec->minus && spec->zero)
+		spec->zero = 0;
 }
 
-static void	extract_width(const char **str, t_spec *spec)
+static void	extract_width(const char **str, t_spec *spec, va_list *args)
 {
-	while (str && *str && ft_isdigit(**str))
+	int	width;
+
+	if (str && *str && **str == '*')
 	{
-		spec->width = (spec->width * 10) + (**str - '0');
+		width = va_arg(*args, int);
+		if (width < 0)
+		{
+			spec->minus = 1;
+			width *= -1;
+		}
+		spec->width = width;
 		(*str)++;
+	}
+	else
+	{
+		while (str && *str && ft_isdigit(**str))
+		{
+			spec->width = (spec->width * 10) + (**str - '0');
+			(*str)++;
+		}
 	}
 }
 
-static void	extract_precision(const char **str, t_spec *spec)
+static void	extract_precision(const char **str, t_spec *spec, va_list *args)
 {
+	int	precision;
+
 	if (str && *str && **str == '.')
 	{
 		spec->dot = 1;
 		(*str)++;
-		while (str && *str && ft_isdigit(**str))
+		if (**str == '*')
 		{
-			spec->precision = (spec->precision * 10) + (**str - '0');
+			precision = va_arg(*args, int);
+			spec->precision = precision;
 			(*str)++;
+		}
+		else
+		{
+			while (str && *str && ft_isdigit(**str))
+			{
+				spec->precision = (spec->precision * 10) + (**str - '0');
+				(*str)++;
+			}
 		}
 	}
 }
@@ -62,10 +91,10 @@ static void	extract_type(const char **str, t_spec *spec)
 	}
 }
 
-void	extract(const char **str, t_spec *spec)
+void	extract(const char **str, t_spec *spec, va_list *args)
 {
 	extract_flags(str, spec);
-	extract_width(str, spec);
-	extract_precision(str, spec);
+	extract_width(str, spec, args);
+	extract_precision(str, spec, args);
 	extract_type(str, spec);
 }

@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 09:17:39 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/19 16:55:41 by cwon             ###   ########.fr       */
+/*   Updated: 2024/09/21 17:58:02 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,13 @@ void	convert_string(va_list *args, int *count, t_spec spec)
 			str = ft_strdup(str);
 	}
 	else
-		str = ft_strdup("(null)");
+	{
+		if (spec.dot && spec.precision < 6)
+			str = ft_strdup("");
+		else
+			str = ft_strdup("(null)");
+	}
 	format_print(spec, str, count);
-	free(str);
 }
 
 void	convert_percent_literal(int *count)

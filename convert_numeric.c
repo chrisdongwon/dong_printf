@@ -6,13 +6,13 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:45:17 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/22 14:37:21 by cwon             ###   ########.fr       */
+/*   Updated: 2024/11/07 07:43:41 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	pad_sign(t_spec spec, char **str, size_t *len)
+static void	pad_sign(t_spec spec, char **str)
 {
 	char	*sign;
 	char	*result;
@@ -20,6 +20,8 @@ static void	pad_sign(t_spec spec, char **str, size_t *len)
 	if ((spec.space || spec.plus) && *str[0] != '-')
 	{
 		sign = (char *)malloc(2);
+		if (spec.space && spec.plus)
+			spec.space = 0;
 		if (spec.space)
 			sign[0] = ' ';
 		else if (spec.plus)
@@ -29,7 +31,6 @@ static void	pad_sign(t_spec spec, char **str, size_t *len)
 		free(*str);
 		free(sign);
 		*str = result;
-		(*len)++;
 	}
 }
 
@@ -42,7 +43,6 @@ void	convert_int(va_list *args, int *count, t_spec spec)
 	str = ft_itoa(va_arg(*args, int));
 	len = ft_strlen(str);
 	digit_len = len;
-	pad_sign(spec, &str, &len);
 	if (str[0] == '-')
 		digit_len--;
 	if (spec.dot && !spec.precision && str[0] == '0')
@@ -58,6 +58,7 @@ void	convert_int(va_list *args, int *count, t_spec spec)
 		pad_zero(&str, spec.precision - digit_len);
 	else if (spec.zero && !spec.dot && spec.width > len)
 		pad_zero(&str, spec.width - len);
+	pad_sign(spec, &str);
 	format_print(spec, str, count);
 }
 
@@ -68,15 +69,16 @@ void	convert_unsigned(va_list *args, int *count, t_spec spec)
 
 	str = ft_utoa(va_arg(*args, unsigned int));
 	len = ft_strlen(str);
-	if (spec.dot && !spec.precision && str[0] == '0')
+	if (spec.dot && spec.precision <= 0)
 	{
-		free(str);
-		str = ft_strdup("");
+		if (str[0] == '0')
+		{
+			free(str);
+			str = ft_strdup("");
+		}
+		else
+			spec.dot = 0;
 	}
-	if (spec.dot && spec.precision < 0)
-		spec.dot = 0;
-	if (spec.dot && spec.zero)
-		spec.zero = 0;
 	if (spec.dot && spec.precision > (int)len)
 		pad_zero(&str, spec.precision - len);
 	else if (spec.zero && !spec.dot && spec.width > len)

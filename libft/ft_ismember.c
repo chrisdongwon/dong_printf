@@ -6,15 +6,15 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 01:03:42 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/15 01:04:10 by cwon             ###   ########.fr       */
+/*   Updated: 2024/11/07 09:32:59 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_ismember(const char c, const char *arr)
+int	ft_ismember(const char c, const char *str)
 {
-	while (arr && *arr)
+	while (str && *str)
 	{
-		if (*(arr++) == c)
+		if (*(str++) == c)
 			return (1);
 	}
 	return (0);

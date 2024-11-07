@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:51:00 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/22 10:23:00 by cwon             ###   ########.fr       */
+/*   Updated: 2024/11/07 19:30:31 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,19 @@ static void	parse(const char *format, va_list *args, int *count)
 {
 	t_spec	spec;
 
-	while (format && *format)
+	while (format && *format && (*count != -1))
 	{
 		init_spec(&spec);
 		if (*format != '%')
 		{
-			ft_putchar_fd(*(format++), 1);
-			(*count)++;
+			if (ft_putchar_fd(*(format++), 1) != -1)
+				(*count)++;
+			else
+				*count = -1;
 		}
 		else
 		{
-			format++;
-			if (!(*format))
+			if (!*(++format))
 				return ;
 			extract(&format, &spec, args);
 			convert(spec, args, count);

@@ -6,14 +6,15 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 01:57:18 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/08 15:54:29 by cwon             ###   ########.fr       */
+/*   Updated: 2024/11/07 18:01:38 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+ssize_t	ft_putstr_fd(char *s, int fd)
 {
-	if (s)
-		write(fd, s, ft_strlen(s));
+	if (!s)
+		return (-1);
+	return (write(fd, s, ft_strlen(s)));
 }

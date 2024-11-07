@@ -6,11 +6,19 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:48:37 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/22 14:26:55 by cwon             ###   ########.fr       */
+/*   Updated: 2024/11/07 19:48:03 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+void	put_space(char *pad, size_t len, int *count)
+{
+	if (*count != -1 && ft_putstr_fd(pad, 1) != -1)
+		*count += len;
+	else
+		*count = -1;
+}
 
 static void	swap(char *str, size_t i, size_t j)
 {

@@ -6,11 +6,20 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:21:21 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/22 14:37:26 by cwon             ###   ########.fr       */
+/*   Updated: 2024/11/07 20:21:00 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+static void	add_header(char *result, const char *hex)
+{
+	if (hex[10] == 'a')
+		result[1] = 'x';
+	else
+		result[1] = 'X';
+	result[0] = '0';
+}
 
 static size_t	hex_length(unsigned int n)
 {
@@ -36,17 +45,13 @@ static char	*to_hex_string(unsigned int n, t_spec spec, const char *hex)
 	if (spec.pound && n)
 		len += 2;
 	result = (char *)malloc(len + 1);
+	if (!result)
+		return (0);
 	result[len--] = 0;
 	if (!n)
 		result[len] = '0';
 	else if (spec.pound)
-	{
-		if (hex[10] == 'a')
-			result[1] = 'x';
-		else
-			result[1] = 'X';
-		result[0] = '0';
-	}
+		add_header(result, hex);
 	while (n)
 	{
 		result[len--] = hex[n % 16];
@@ -68,18 +73,17 @@ void	convert_hex(va_list *args, int *count, t_spec spec, const char *hex)
 	digit_len = len;
 	if (spec.pound && val)
 		digit_len -= 2;
-	if (spec.dot && !spec.precision && str[0] == '0')
-	{
-		free(str);
-		str = ft_strdup("");
-	}
+	if (spec.dot && !spec.precision && str && str[0] == '0')
+		empty_str(&str);
 	if (spec.dot && spec.precision < 0)
 		spec.dot = 0;
 	if (spec.dot && spec.zero)
 		spec.zero = 0;
-	if (spec.dot && spec.precision > (int)digit_len)
+	if (spec.dot && spec.precision > (int)digit_len && str)
 		pad_zero(&str, spec.precision - digit_len);
-	else if (spec.zero && !spec.dot && spec.width > len)
+	else if (spec.zero && !spec.dot && spec.width > len && str)
 		pad_zero(&str, spec.width - len);
-	format_print(spec, str, count);
+	if (!str)
+		return (flush(count, str));
+	return (format_print(spec, str, count));
 }

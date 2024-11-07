@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 09:17:39 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/21 17:58:02 by cwon             ###   ########.fr       */
+/*   Updated: 2024/11/07 20:16:36 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,16 @@ void	convert_char(va_list *args, int *count, t_spec spec)
 	if (spec.width > 1)
 		space_len = spec.width - 1;
 	space_pad = pad_string(space_len, ' ');
+	if (!space_pad)
+		return (flush(count, space_pad));
 	if (!spec.minus)
-	{
-		ft_putstr_fd(space_pad, 1);
-		*count += space_len;
-	}
-	ft_putchar_fd(va_arg(*args, int), 1);
-	*count += 1;
+		put_space(space_pad, space_len, count);
+	if (*count != -1 && ft_putchar_fd(va_arg(*args, int), 1) != -1)
+		*count += 1;
+	else
+		return (flush(count, space_pad));
 	if (spec.minus)
-	{
-		ft_putstr_fd(space_pad, 1);
-		*count += space_len;
-	}
+		put_space(space_pad, space_len, count);
 	free(space_pad);
 }
 
@@ -55,11 +53,15 @@ void	convert_string(va_list *args, int *count, t_spec spec)
 		else
 			str = ft_strdup("(null)");
 	}
-	format_print(spec, str, count);
+	if (!str)
+		return (flush(count, str));
+	return (format_print(spec, str, count));
 }
 
 void	convert_percent_literal(int *count)
 {
-	ft_putchar_fd('%', 1);
-	*count += 1;
+	if (ft_putchar_fd('%', 1) != -1)
+		*count += 1;
+	else
+		*count = -1;
 }

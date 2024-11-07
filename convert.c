@@ -6,11 +6,23 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 01:29:48 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/21 17:56:03 by cwon             ###   ########.fr       */
+/*   Updated: 2024/11/07 20:31:49 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+void	flush(int *count, char *str)
+{
+	*count = -1;
+	free(str);
+}
+
+void	empty_str(char **str)
+{
+	free(*str);
+	*str = ft_strdup("");
+}
 
 void	format_print(t_spec spec, char *str, int *count)
 {
@@ -23,18 +35,19 @@ void	format_print(t_spec spec, char *str, int *count)
 	if (spec.width > len)
 		space_len = spec.width - len;
 	space_pad = pad_string(space_len, ' ');
+	if (!space_pad)
+		return (flush(count, str));
 	if (!spec.minus)
+		put_space(space_pad, space_len, count);
+	if (*count != -1 && ft_putstr_fd(str, 1) >= 0)
+		*count += len;
+	else
 	{
-		ft_putstr_fd(space_pad, 1);
-		*count += space_len;
+		free(space_pad);
+		return (flush(count, str));
 	}
-	ft_putstr_fd(str, 1);
-	*count += len;
 	if (spec.minus)
-	{
-		ft_putstr_fd(space_pad, 1);
-		*count += space_len;
-	}
+		put_space(space_pad, space_len, count);
 	free(space_pad);
 	free(str);
 }

@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:04:28 by cwon              #+#    #+#             */
-/*   Updated: 2024/09/21 17:57:41 by cwon             ###   ########.fr       */
+/*   Updated: 2024/11/07 20:26:16 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static char	*to_hex_string(unsigned long n, const char *hex)
 
 	len = hex_length(n) + 2;
 	result = (char *)malloc(len + 1);
+	if (!result)
+		return (0);
 	result[len--] = 0;
 	if (!n)
 		result[len--] = '0';
@@ -60,5 +62,7 @@ void	convert_pointer(va_list *args, int *count, t_spec spec)
 		str = ft_strdup("(nil)");
 	else
 		str = to_hex_string((unsigned long)ptr, "0123456789abcdef");
-	format_print(spec, str, count);
+	if (str)
+		return (format_print(spec, str, count));
+	return (flush(count, str));
 }
